@@ -1,0 +1,63 @@
+{% extends 'news/layout.html' %}
+
+{% block pocket_menu %}
+{% block pocket_menu_item %}{% endblock %}
+{% endblock %}
+
+{% block data %}
+
+  {% if not page_obj %}
+<div class="card m-3">
+  <div class="card-body">
+      <p class="m-0 text-center">Nic tu jeszcze nie ma.</p>
+      {% if not user.is_authenticated %}
+      <p class="m-0 text-center">Aby coś dodać musisz się zalogować <a href="{% url 'news:log_in' %}" >Zaloguj</a></p>
+      {% endif %}
+  </div>
+</div>
+    {% endif %}
+
+<div class="row row-cols-1 row-cols-md-2 m-0 pb-4 g-4 bg-light">
+  {% for item in page_obj %}
+  <div class="col">
+      <a class="text-decoration-none link-dark" href="{% url 'news:article_details' item.id %}">
+    <div class="card h-100">
+      <img src="{{MEDIA_URL}}{{item.img}}" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">{{item.name}}</h5></h5>
+        <p class="card-text">{{item.article|truncatechars:600}}</p>
+      </div>
+      <div class="card-footer bg-transparent border-success"><h6>{{item.time_created|timesince}}</h6></div>
+    </div>
+      </a>
+  </div>
+  {% endfor%}
+</div>
+
+<!-- Paginations -->
+{% if page_obj.paginator.num_pages > 1%}
+<nav aria-label="Page navigation" class="p-3 m-0 bg-light">
+  <ul class="pagination justify-content-center m-0">
+        {% if page_obj.has_previous %}
+      <li class="page-item">{% block list_item_pagination_previous %}{% endblock %}</li>
+      {% else %}
+            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+        {% endif %}
+
+    <li class="page-item disabled"><span class="page-link text-dark"> {{ page_obj.number }} z {{ page_obj.paginator.num_pages }}</span></li>
+    <li class="page-item">
+        {% if page_obj.has_next %}
+        <li class="page-item">{% block list_item_pagination_next %}{% endblock %}</li>
+      {% else %}
+        <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+        {% endif %}
+  </ul>
+</nav>
+
+{% endif %}
+
+
+
+
+
+{% endblock %}

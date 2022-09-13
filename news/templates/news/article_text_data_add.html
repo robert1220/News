@@ -1,0 +1,31 @@
+{% extends 'news/article_details.html' %}
+{% block pocket_menu_item %}
+<li class="breadcrumb-item active" aria-current="page">Dodawanie nowego Artykułu </li>
+{% endblock %}
+{% block title %}Dodawanie nowego Artykułu{% endblock %}
+{% block modal_allert_abort %}
+<a href="{% url 'news:user_profile_menu' %}" type="button" class="btn btn-secondary">Tak</a>
+{% endblock %}
+
+{% block card_details %}
+<div class="card">
+  <div class="card-body">
+      {% block image %}{% endblock %}
+    {% block form %}<form method="post" action="{% url 'news:cud_article_add' %}">{% endblock %}
+    {% csrf_token %}
+    {{ form.as_p }}
+        <div class="hstack gap-2">
+        <div>
+            {% block button_undo %}<a href="{% url 'news:user_profile_menu' %}" type="button" class="btn btn-secondary">< Wstecz</a>{% endblock %}
+        </div>
+            <div class="ms-auto">
+                <button type="submit" class="btn btn-primary">Dalej ></button>
+
+            </div>
+        </div>
+          </form>
+  </div>
+</div>
+
+{% endblock %}
+{% block data_comment %}{% endblock %}

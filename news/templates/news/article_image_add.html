@@ -1,0 +1,54 @@
+{% extends 'news/article_text_data_add.html' %}
+{% block pocket_menu_item %}
+<li class="breadcrumb-item active" aria-current="page">Dodawanie obrazka</li>
+{% endblock %}
+{% block title %}Dodawanie nowego Artykułu{% endblock %}
+
+{% block card_details %}
+<div class="card">
+  <div class="card-body text-center">
+      <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+        <div>
+            {% if temp_image %}
+            <img class="img-thumbnail" src="{{MEDIA_URL}}{{ temp_image.img }}" width="600px">
+            {% else %}
+            {% block image %}{% endblock %}
+            {% endif %}</div>
+    </li>
+    <li class="list-group-item">
+        {% block form %}
+        <form method="post" action="{% url 'news:cud_article_add_image' %}" enctype="multipart/form-data">
+            {% endblock %}
+    {% csrf_token %}
+    {{ form.as_p }}
+            <div class="d-grid col-6 mx-auto">
+                <button type="submit" class="btn btn-outline-primary">Załaduj</button>
+            </div>
+    </form>
+    </li>
+  </ul>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+      <div class="hstack gap-2">
+        <div>
+            {% block button_undo %}
+            <a href="{% url 'news:article_add_text_data' %}" type="button" class="btn btn-secondary">< Wstecz</a>
+            {% endblock %}
+        </div>
+          <div class="ms-auto">
+              {% if temp_image %}
+          {% block button_next %}<a href="{% url 'news:article_preview' %}" type="button" class="btn btn-primary">Dalej ></a>{% endblock %}
+              {% else %}
+              <button type="button" class="btn btn-primary" disabled >Dalej ></button>
+              {% endif %}
+        </div>
+      </div>
+  </div>
+</div>
+
+{% endblock %}
+{% block data_comment %}{% endblock %}

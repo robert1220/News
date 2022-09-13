@@ -1,0 +1,155 @@
+{% extends 'news/layout.html' %}
+
+{% block title %}
+{{article.category_id.name}}
+{% endblock %}
+{% block pocket_menu %}
+<li class="breadcrumb-item"><a href="{% url 'news:index' %}">news</a></li>
+{% block pocket_menu_item %}
+<li class="breadcrumb-item"><a href="{% url 'news:articles' article.category_id.name %}">{{ article.category_id.name }}</a></li>
+<li class="breadcrumb-item active" aria-current="page">{{ article.name }}</li>
+{% endblock %}
+{% endblock %}
+
+{% block data %}
+
+{% block popup_del_alert %}
+<!-- Modal PopUp abort alert -->
+<div class="modal fade" id="AlertAbort" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Uwaga: zmiany nie zostały zapisane !</h5>
+      </div>
+      <div class="modal-body">
+        Czy na pewno chcesz opuścić tę strone ?
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Nie</button>
+{% block modal_allert_abort %}{% endblock %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal PopUp delete item alert -->
+<div class="modal fade" id="AlertDeleteItem" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{% block modal_del_title %}{% endblock %}</h5>
+      </div>
+      <div class="modal-body">
+        Czy na pewno chcesz usunąć ?
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Nie</button>
+          <form method="post" action="{% block del_send %}{% endblock %}">
+              {% csrf_token %}
+              {{ del_item_form.as_p }}
+        <button type="submit" class="btn btn-danger">Usuń</button>
+          </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
+
+{% block accept_menu %}{% endblock %}
+
+<div class="m-3 pb-0 g-4 bg-light">
+
+  {% block card_details %}
+
+    <div class="card">
+      {% block image %}<img src="{{MEDIA_URL}}{{article.img}}" class="card-img-top" style="max-height:500px;" alt="...">{% endblock %}
+            <div class="card-body">
+                <div class="hstack">
+                    <div><h2 class="card-title">{{article.name}}</h2></div>
+                    {% if user.id == article.autor_id.id or user.is_superuser %}
+                    {% block article_edit_button %}<div class="ms-auto"><a class="fs-3 text-dark" href="{% url 'news:article_edit_menu' article.id %}"><i class="bi bi-wrench-adjustable-circle"></i></a></div>{% endblock %}
+                {% endif %}
+                </div>
+        {{ article.article|escape|linebreaks }}
+      </div>
+      {% block card_footer %}<div class="card-footer bg-transparent border-success hstack gap-3">
+  <div><h6>Data dodania: {{article.time_created}}</h6></div>
+  <div class="ms-auto"><h6>Autor: {{ article.autor_id.username}}</h6></div>
+      </div>{% endblock %}
+    </div>
+  {% endblock %}
+</div>
+
+{% block data_comment %}
+
+<a name="start_comment"></a>
+<div class="card m-3">
+  <div class="card-body hstack">
+            <h5 class="m-0">Komentarze</h5>
+      {% if user.is_authenticated %}
+      <a href="{% url 'news:article_comment_add' article.id %}#start_form" class="btn btn-primary ms-auto" role="button">Dodaj</a>
+      {% else %}<button class="btn btn-primary ms-auto disabled" role="button">Dodaj</button>{% endif %}
+  </div>
+</div>
+
+
+
+{% if not page_obj %}
+<div class="card m-3">
+  <div class="card-body">
+      <p class="m-0 text-center">Ten artykuł nie posiada jeszcze żadnych komentarzy</p>
+      {% if not user.is_authenticated %}
+      <p class="m-0 text-center">Aby napisać komentarz musisz się zalogować <a href="{% url 'news:log_in' %}" >Zaloguj</a></p>
+      {% endif %}
+  </div>
+</div>
+
+{% endif %}
+
+<!-- Comment -->
+<div>
+{% for comment in page_obj %}
+<div class="card border-dark m-3">
+  <div class="card-header gap-3 hstack"><div>
+      <h6 class="m-0">{{ comment.autor_id.username }}</h6>
+  </div>
+      {% if user.is_superuser %}
+      <div><a class="fs-6 text-dark" href="{% url 'news:comment_edit' comment.id %}"><i class="bi bi-wrench-adjustable-circle"></i></a></div>
+      {% endif %}
+      <div class="ms-auto"><h6 class="m-0">{{ comment.time_created }}</h6>
+      </div>
+  </div>
+  <div class="card-body text-dark">
+    <p class="card-text">{{ comment.comment }}</p>
+  </div>
+</div>
+{% endfor %}
+  </div>
+
+
+<!-- Paginations -->
+{% if page_obj.paginator.num_pages > 1%}
+<nav aria-label="Page navigation" class="p-3 m-0 bg-light">
+  <ul class="pagination justify-content-center m-0">
+        {% if page_obj.has_previous %}
+      <li class="page-item"><a class="page-link" href="{% url 'news:article_details_pagination' article.id page_obj.previous_page_number %}#start_comment">Previous</a></li>
+      {% else %}
+            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+        {% endif %}
+
+    <li class="page-item disabled"><span class="page-link text-dark"> {{ page_obj.number }} z {{ page_obj.paginator.num_pages }}</span></li>
+    <li class="page-item">
+        {% if page_obj.has_next %}
+        <li class="page-item"><a class="page-link" href="{% url 'news:article_details_pagination' article.id page_obj.next_page_number %}#start_comment">Next</a></li>
+      {% else %}
+        <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+        {% endif %}
+  </ul>
+</nav>
+
+{% endif %}
+{% endblock %}
+{% endblock %}

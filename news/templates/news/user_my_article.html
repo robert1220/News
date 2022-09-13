@@ -1,0 +1,95 @@
+{% extends 'news/article_details.html' %}
+{% block pocket_menu_item %}
+<li class="breadcrumb-item active" aria-current="page">Lista artykułów</li>
+{% endblock %}
+{% block title %}Lista artykułów{% endblock %}
+{% block card_details %}
+<div class="card">
+      <div class="card-header">
+          <h5>Lista artykułów: {{ user }}</h5>
+  </div>
+  <div class="card-body">
+
+<div class="col-11 mx-auto">
+    <a name="start_list"></a>
+
+
+{% if page_obj %}
+<table class="table table-bordered align-middle">
+  <thead>
+    <tr>
+      <th scope="col" class="col-8">Lista twoich artykułów</th>
+        <th scope="col" class="col-3">Data utworzenia</th>
+      <th scope="col" class="">Link</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for article in page_obj %}
+    <tr>
+      <td class="text-center">{{article.name}}</td>
+        <td class="text-center">{{article.time_created}}</td>
+        <td class="d-grid gap-2">
+            <a href="{% url 'news:article_details' article.id %}" class="btn btn-primary btn-sm">Zobacz</a>
+        </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+    {% else %}
+    <p class="m-0 text-center">Nie masz jeszcze żadnych artykułów <a href="{% url 'news:article_add_text_data' %}">Napisz coś</a></p>
+    {% endif %}
+
+
+    <!-- Paginations -->
+{% if page_obj.paginator.num_pages > 1%}
+<nav aria-label="Page navigation" class="p-3 m-0 bg-light">
+  <ul class="pagination justify-content-center m-0">
+        {% if page_obj.has_previous %}
+      <li class="page-item"><a class="page-link" href="{% url 'news:user_my_article_pagination' page_obj.previous_page_number %}#start_list">Previous</a></li>
+      {% else %}
+            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+        {% endif %}
+
+    <li class="page-item disabled"><span class="page-link text-dark"> {{ page_obj.number }} z {{ page_obj.paginator.num_pages }}</span></li>
+    <li class="page-item">
+        {% if page_obj.has_next %}
+        <li class="page-item"><a class="page-link" href="{% url 'news:user_my_article_pagination' page_obj.next_page_number %}#start_list">Next</a></li>
+      {% else %}
+        <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+        {% endif %}
+  </ul>
+</nav>
+{% endif %}
+
+    </div>
+
+      <div class="mt-4">
+      <a href="{% url 'news:user_profile_menu' %}" type="button" class="btn btn-primary">< Wstecz</a>
+      </div>
+  </div>
+</div>
+
+{% endblock %}
+{% block data_comment %}{% endblock %}
+
+<ul class="list-group list-group-flush">
+    {% for article in list_articles %}
+    <li class="list-group-item text-center"><a class="text-decoration-none text-dark" href="#">{{ article.name }}</a></li>
+    {% endfor %}
+  </ul>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col" class="col-10">Lista twoich artykułów</th>
+      <th scope="col" class="">Link</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for article in list_articles %}
+    <tr>
+      <td class="text-center">{{article.name}}</td><td class="text-center"><button class="btn btn-primary">Przejdź</button></td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>

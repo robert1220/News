@@ -1,0 +1,4 @@
+{% extends 'news/article_text_data_add.html' %}
+{% block form %}<form method="post" action="{% url 'news:cud_article_text_update' %}">{% endblock %}
+{% block button_undo %}<a href="{% url 'news:article_edit_menu' article.id %}" type="button" class="btn btn-secondary">< Wstecz</a>{% endblock %}
+{# block button_undo #}<a href="{% url 'endpoints:article_update_abort' %}" type="button" class="btn btn-secondary">< Wstecz</a>{# endblock #}

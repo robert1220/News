@@ -1,0 +1,8 @@
+{% extends 'news/list_items.html' %}
+{% block title %}{{category_name}}{% endblock %}
+{% block list_item_pagination_next %}<a class="page-link" href="{% url 'news:articles_pagination' category_name page_obj.next_page_number %}">Next</a>{% endblock %}
+{% block list_item_pagination_previous %}<a class="page-link" href="{% url 'news:articles_pagination' category_name page_obj.previous_page_number %}">Previous</a>{% endblock %}
+{% block pocket_menu_item %}
+<li class="breadcrumb-item"><a href="{% url 'news:index' %}">news</a></li>
+<li class="breadcrumb-item active" aria-current="page">{{ category_name }}</li>
+{% endblock %}

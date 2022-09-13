@@ -1,0 +1,9 @@
+{% extends 'news/log_in.html' %}
+{% block title %}Rejestracja{% endblock %}
+{% block pocket_menu_item %}
+<li class="breadcrumb-item active" aria-current="page">Rejestracja nowego użytkownika</li>
+{% endblock %}
+{% block card_title %}Rejestracja nowego użytkownika{% endblock %}
+{% block form %}{% url 'news:auth_register' %}{% endblock %}
+{% block send %}<button type="submit" class="btn btn-primary">Utwórz</button>{% endblock %}
+{% block link %}<span>Masz już konto ? </span><a href="{% url 'news:log_in' %}">Zaloguj >></a>{% endblock %}

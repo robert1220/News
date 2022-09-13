@@ -1,0 +1,33 @@
+{% extends 'news/article_details.html' %}
+{% block title %}Edycja Komentarza{% endblock %}
+{% block pocket_menu_item %}
+<li class="breadcrumb-item active" aria-current="page">Edycja Komentarza</li>
+{% endblock %}
+{% block del_title %} Kasowanie komentarza {% endblock %}
+{% block del_send %}{% url 'news:cud_comment_del' %}{% endblock %}
+
+{% block card_details %}
+
+<div class="card">
+  <div class="card-body">
+      <form method="post" action="{% url 'news:cud_comment_edit' %}">
+    {% csrf_token %}
+    {{ update_comment_form.as_p }}
+        <div class="hstack gap-2">
+        <div>
+            <a href="{% url 'news:article_details' comment.article_id.id %}#start_comment" type="button" class="btn btn-secondary"><< Wstecz</a>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary">Wyślij</button>
+        </div>
+        <div>
+            <!-- Button trigger modal del alert -->
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#AlertDeleteItem">Usuń</button>
+        </div>
+        </div>
+          </form>
+  </div>
+</div>
+
+  {% endblock %}
+{% block data_comment %}{% endblock %}

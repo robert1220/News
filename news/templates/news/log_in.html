@@ -1,0 +1,29 @@
+{% extends 'news/article_details.html' %}
+{% block title %}Logowanie{% endblock %}
+{% block pocket_menu_item %}
+<li class="breadcrumb-item active" aria-current="page">Logowanie</li>
+{% endblock %}
+
+{% block card_details %}
+<div class="card">
+      <div class="card-header">
+          <h5>{% block card_title %}Logowanie{% endblock %}</h5>
+  </div>
+  <div class="card-body">
+      <form method="post" action="{% block form %}{% url 'news:auth_log_in' %}{% endblock %}">
+{% csrf_token %}
+    {{ form.as_p }}
+          <div class="hstack gap-2">
+              <div>{% block abort %}<a href="{% url 'news:index' %}" type="button" class="btn btn-primary">Anuluj</a>{% endblock %}</div>
+              <div>{% block send %}<button type="submit" class="btn btn-primary">Zaloguj</button>{% endblock %}</div>
+              <div class="ms-auto">{% block link %}<span>Nie masz Jeszcze konta ? </span><a href="{% url 'news:register' %}">Zarejestruj >></a>{% endblock %}</div>
+              </div>
+      </form>
+</div>
+      <div class="mt-4">
+      </div>
+  </div>
+</div>
+
+{% endblock %}
+{% block data_comment %}{% endblock %}

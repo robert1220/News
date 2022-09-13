@@ -1,0 +1,5 @@
+{% extends 'news/article_preview.html' %}
+{% block save_button %}<a href="{% url 'news:cud_article_update_text_save' %}" type="submit" class="btn btn-primary">Zapisz zmiany</a>{% endblock %}
+{% block undo_button %}<a href="{% url 'news:article_edit_text_data' %}" type="button" class="btn btn-secondary">< Wstecz</a>{% endblock %}
+{% block modal_allert_abort %}<a href="{% url 'news:article_edit_menu' article_id %}" type="button" class="btn btn-secondary">Tak</a>{% endblock %}
+{% block image %}<img src="{{MEDIA_URL}}{{img.img}}" class="card-img-top" style="max-height:500px;" alt="...">{% endblock %}

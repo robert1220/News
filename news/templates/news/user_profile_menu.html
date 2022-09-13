@@ -1,0 +1,34 @@
+{% extends 'news/article_details.html' %}
+{% block pocket_menu_item %}
+<li class="breadcrumb-item active" aria-current="page">Menu Profilu</li>
+{% endblock %}
+{% block title %}Co chcesz zrobić ?{% endblock %}
+{% block card_details %}
+<div class="card">
+      <div class="card-header">
+          <h5>Profil: {{ user }}</h5>
+  </div>
+  <div class="card-body">
+<div class="">
+    <div class="d-grid col-5 m-2 mx-auto"><h5>Co chcesz zrobić ?</h5></div>
+    <div class="d-grid col-5 m-2 mx-auto"><a href="{% url 'news:user_profile_data'%}" type="button" class="btn btn-primary">Twoje dane</a></div>
+    <div class="d-grid col-5 m-2 mx-auto"><a href="{% url 'news:user_change_password' %}" type="button" class="btn btn-primary">Zmień hasło</a></div>
+    <div class="d-grid col-5 m-2 mx-auto"><a href="{% url 'news:article_add_text_data'%}" type="button" class="btn btn-primary">Dodaj nowy Artykuły</a></div>
+    <div class="d-grid col-5 m-2 mx-auto"><a href="{% url 'news:user_my_article' %}" type="button" class="btn btn-primary">Moje artykuły</a></div>
+    {% if user.is_superuser %}
+    <div class="d-grid col-5 m-2 mx-auto"><a href="{% url 'admin:index' %}" type="button" class="btn btn-primary">Panel Administracyjny</a></div>
+    {% endif %}
+    <form class="d-grid col-5 m-2 mx-auto" method="post" action="{% url 'news:auth_log_out' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-secondary">Wyloguj</button>
+    </form>
+
+</div>
+      <div class="mt-4">
+      <a href="{% url 'news:index' %}" type="button" class="btn btn-primary">< Wstecz</a>
+      </div>
+  </div>
+</div>
+
+{% endblock %}
+{% block data_comment %}{% endblock %}

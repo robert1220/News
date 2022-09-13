@@ -1,0 +1,33 @@
+{% extends 'news/article_details.html' %}
+{% block pocket_menu_item %}
+<li class="breadcrumb-item active" aria-current="page">Menu edycji artykułu</li>
+{% endblock %}
+{% block title %}Menu edycji artykułu{% endblock %}
+{% block modal_del_title %}Usuwanie Artykułu{% endblock %}
+{% block del_send %}{% url 'news:cud_article_delete' %}{% endblock %}
+
+{% block card_details %}
+<div class="card">
+      <div class="card-header">
+          <h5>{{ article.name }}</h5>
+  </div>
+  <div class="card-body">
+<div class="">
+    <div class="d-grid col-5 m-2 mx-auto"><h5>Co chcesz zrobić ?</h5></div>
+    <div class="d-grid col-5 m-2 mx-auto"><a href="{% url 'news:article_edit_text_data' %}" type="button" class="btn btn-primary">Edytuj tekst</a></div>
+    <div class="d-grid col-5 m-2 mx-auto"><a href="{% url 'news:article_change_image' %}" type="button" class="btn btn-primary">Zmień obrazek</a></div>
+    <div class="d-grid col-5 m-3 mx-auto">
+        <div class="h6 pb-2 mb-0 text-danger border-bottom border-danger">
+            Dangerous heading
+        </div>
+    </div>
+   <div class="d-grid col-5 mx-auto"><button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#AlertDeleteItem">Usuń</button></div>
+</div>
+      <div class="mt-4">
+      <a href="{% url 'news:article_details' article.id %}" type="button" class="btn btn-primary">< Wstecz</a>
+      </div>
+  </div>
+</div>
+
+{% endblock %}
+{% block data_comment %}{% endblock %}

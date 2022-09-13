@@ -1,0 +1,9 @@
+{% extends 'news/article_image_add.html' %}
+{% block title %}Zmiana obrazka{% endblock %}
+{% block pocket_menu_item %}
+<li class="breadcrumb-item active" aria-current="page">Zmiana obrazka</li>
+{% endblock %}
+{% block form %}<form method="post" action="{% url 'news:cud_article_update_image' %}" enctype="multipart/form-data">{% endblock %}
+{% block button_undo %}<a href="{% url 'news:article_edit_menu' article_id %}" type="button" class="btn btn-secondary">< Wstecz</a>{% endblock %}
+{% block button_next %}<a href="{% url 'news:article_preview_image_update' %}" type="button" class="btn btn-primary">Dalej ></a>{% endblock %}
+{% block image %}<div><img class="img-thumbnail" src="{{MEDIA_URL}}{{ image }}" width="600px"></div>{% endblock %}

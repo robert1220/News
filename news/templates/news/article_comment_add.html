@@ -1,0 +1,17 @@
+{% extends 'news/article_details.html' %}
+{% block title %}{{article.category_id.name}}{% endblock %}
+{% block data_comment %}
+<div class="card m-3">
+  <div class="card-body">
+      <a name="start_form"></a>
+      <div><h6 class="fw-bold" >@{{user}}</h6></div>
+      <form method="post" action="{% url 'news:cud_comment_add' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <a href="{% url 'news:article_details' article.id %}#start_comment" type="button" class="btn btn-secondary me-md-2"><< Wstecz</a>
+          <button type="submit" class="btn btn-primary">Wyślij</button>
+      </form>
+  </div>
+</div>
+
+{% endblock %}

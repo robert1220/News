@@ -1,0 +1,24 @@
+{% extends 'news/article_details.html' %}
+{% block title %}Preview{% endblock %}
+{% block pocket_menu_item %}<li class="breadcrumb-item active" aria-current="page">Preview</li>{% endblock %}
+{% block image %}<img src="data:image/jpg;base64,{{img}}" class="card-img-top" style="max-height:500px;" alt="...">{% endblock %}
+{% block article_edit_button %}{% endblock %}
+{% block modal_allert_abort %}<a href="{% url 'news:user_profile_menu' %}" type="button" class="btn btn-secondary">Tak</a>{% endblock %}
+
+{% block accept_menu %}
+<div class="card">
+  <div class="card-body hstack gap-2">
+        <div>
+           {% block undo_button %}<a href="{% url 'news:article_add_image' %}" type="button" class="btn btn-secondary">< Wstecz</a>{% endblock %}
+        </div>
+        <div>
+          <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#AlertAbort">Anuluj</button>
+        </div>
+      <div class="ms-auto">
+        {% block save_button %}<a href="{% url 'news:cud_article_add_save' %}" type="submit" class="btn btn-primary">Zapisz</a>{% endblock %}
+      </div>
+    </div>
+</div>
+{% endblock %}
+{% block data_comment %}{% endblock %}
+{% block card_footer %}{% endblock %}
