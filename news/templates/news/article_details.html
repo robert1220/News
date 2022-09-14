@@ -4,7 +4,7 @@
 {{article.category_id.name}}
 {% endblock %}
 {% block pocket_menu %}
-<li class="breadcrumb-item"><a href="{% url 'news:index' %}">news</a></li>
+<li class="breadcrumb-item"><a href="{% url 'news:index' %}">Home</a></li>
 {% block pocket_menu_item %}
 <li class="breadcrumb-item"><a href="{% url 'news:articles' article.category_id.name %}">{{ article.category_id.name }}</a></li>
 <li class="breadcrumb-item active" aria-current="page">{{ article.name }}</li>
